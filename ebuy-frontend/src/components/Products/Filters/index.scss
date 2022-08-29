@@ -1,0 +1,30 @@
+@import "../../../styles/variabels/variabels.scss";
+.filters {
+  padding: 56px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  input {
+    background: url("../../../assets/images/Login/input.svg") center;
+    width: 300px;
+    padding: $text-m1;
+    border: 0;
+    border-radius: 4px;
+    font-size: $text-m1;
+    color: $input-text-color;
+  }
+  button {
+    width: 100px;
+    height: 3rem;
+    font-size: $text-m1;
+    font-weight: 400;
+    background: url(../../../assets/images/Login/button_brown.png) no-repeat
+      center;
+    color: #413422 !important;
+    position: relative;
+    gap: 10px;
+    cursor: pointer;
+    font-family: "Libre Caslon Text", serif;
+    border: 0;
+  }
+}

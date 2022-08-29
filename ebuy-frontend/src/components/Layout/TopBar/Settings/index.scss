@@ -1,0 +1,45 @@
+@import "../../../../styles/variabels/variabels.scss";
+.settings-container {
+  margin: 0 32px;
+  position: relative;
+  top: 36px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  animation: zoomInDown 1s;
+
+  button {
+    width: 4rem;
+    height: 2rem;
+    font-size: $text-m1;
+    font-weight: 400;
+    background: url(../../../../assets/images/Login/button_brown.png) no-repeat
+      center;
+    font-family: "Libre Caslon Text", serif;
+    cursor: pointer;
+    border: 0;
+  }
+
+  .cart {
+    .items {
+      display: flex;
+      align-items: center;
+      button {
+        margin: 0 32px;
+      }
+    }
+    position: relative;
+    color: #ffffff;
+    animation: zoomInDown 1s;
+    cursor: pointer;
+    p {
+      position: absolute;
+      top: -150%;
+      left: 50%;
+      background-color: rgba($color: #af6f21, $alpha: 0.7);
+      padding: 1px 4px;
+      border-radius: 100%;
+    }
+  }
+}

@@ -1,0 +1,63 @@
+@use "../abstract/colors" as *;
+
+body {
+  padding: 0;
+  margin: 0;
+  margin: 0;
+  font: 300 11px/1.4 "Helvetica Neue", sans-serif;
+  font-family: "Lexend Deca";
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  display: block;
+}
+
+html {
+  font-size: 16px;
+}
+
+.dark {
+  .login-headers {
+    color: $dark-orange-color;
+    transition: 0.3s;
+  }
+
+  .page-background {
+    // background-color: $dark-page-background-color;
+    transition: 0.3s;
+  }
+
+  .error {
+    color: $dark-error;
+    transition: 0.3s;
+  }
+
+  .login-button {
+    color: $dark-primary-color;
+    background-color: $light-button-background-color;
+    transition: 0.3s;
+  }
+}
+
+.light {
+  .login-headers {
+    color: $light-orange-color;
+    transition: 0.3s;
+  }
+
+  .page-background {
+    background-color: $light-page-background-color;
+    transition: 0.3s;
+  }
+
+  .error {
+    color: $light-error;
+    transition: 0.3s;
+  }
+  .login-button {
+    color: $dark-primary-color;
+    background-color: $dark-button-background-color;
+    transition: 0.3s;
+  }
+}

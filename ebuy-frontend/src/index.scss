@@ -1,0 +1,19 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  /* overflow: hidden; */
+}
+
+body {
+  position: relative;
+}
+html {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

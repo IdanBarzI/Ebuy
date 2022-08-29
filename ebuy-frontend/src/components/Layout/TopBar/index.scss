@@ -1,0 +1,78 @@
+@import "../../../styles/variabels/variabels.scss";
+
+.header {
+  width: 100%;
+
+  .bar {
+    position: fixed;
+    left: 0;
+    height: 25px;
+    width: 100%;
+    z-index: 1;
+  }
+
+  nav {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    .inner-site {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-right: 20px;
+    }
+    ul {
+      height: 100%;
+      width: 100%;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      position: absolute;
+      top: 30px;
+      padding: 0;
+      margin: 0;
+      .last {
+        align-self: flex-end;
+        margin-left: auto;
+      }
+      li {
+        margin: 0 1rem;
+        a {
+          color: $dark-orange-color;
+          font-size: $text-m1;
+          text-decoration: none;
+          font-family: "Libre Caslon Text", serif;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          justify-content: flex-start;
+          padding-top: 20px;
+          p {
+            padding: 0;
+            font-family: "MedievalSharp", cursive;
+            margin: -10px 0;
+          }
+          &:hover,
+          &:active {
+            color: $dark-orange-hover-color;
+          }
+        }
+        .active {
+          color: $dark-orange-hover-color;
+          .arrow {
+            opacity: 1;
+            padding: 0;
+            margin: 0;
+            animation: zoomInDown 1s;
+          }
+        }
+        .arrow {
+          opacity: 0;
+          width: 50px;
+          height: 35px;
+        }
+      }
+    }
+  }
+}

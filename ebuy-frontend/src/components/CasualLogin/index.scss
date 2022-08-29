@@ -1,0 +1,137 @@
+@import "../../styles/variabels/variabels.scss";
+@import "animate.css";
+.login-club {
+  height: 100vh;
+  position: relative;
+  background: url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1290&q=80")
+    no-repeat center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  .overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba($color: #000000, $alpha: 0.5);
+  }
+  .login-club-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+    padding: 50px;
+    border-radius: 12px;
+    transform: translate(block);
+    transition: opacity 2s ease-out;
+
+    em {
+      color: $dark-error;
+      font-weight: bold;
+      font-size: $text-s1;
+      z-index: 1;
+    }
+    h1 {
+      z-index: 1;
+      font-size: $text-l3;
+      margin: 0;
+      font-family: "MedievalSharp", cursive;
+    }
+
+    h2 {
+      z-index: 1;
+      font-size: $text-l1;
+      font-family: "Libre Caslon Text", serif;
+      margin: 0.5rem;
+    }
+
+    input,
+    textarea {
+      padding: $text-m1;
+      margin: 10px 0;
+      z-index: 1;
+      border: 0;
+      background: url("../../assets/images/Login/input.svg") center;
+      border-radius: 4px;
+      font-size: $text-m1;
+      color: $input-text-color;
+      width: 250px;
+    }
+    .row {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .first {
+      animation: backInLeft 1s;
+    }
+    .last {
+      animation: backInRight 1s;
+    }
+
+    ::placeholder {
+      opacity: 0.8; /* Firefox */
+      font-size: $text-m1;
+      font-family: "MedievalSharp", cursive;
+    }
+
+    :-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      opacity: 0.8;
+      font-size: $text-m3;
+      font-family: "MedievalSharp", cursive;
+    }
+
+    ::-ms-input-placeholder {
+      /* Microsoft Edge */
+      opacity: 0.8;
+      font-size: $text-m3;
+      font-family: "MedievalSharp", cursive;
+    }
+
+    button {
+      animation: backInUp 1s;
+      margin: 0 36px;
+      width: 130px;
+      height: 3rem;
+      font-size: $text-m1;
+      font-weight: 400;
+      background: url("../../assets/images/Login/button_brown.png") no-repeat
+        center;
+      color: #413422 !important;
+      position: relative;
+      gap: 10px;
+      cursor: pointer;
+      font-family: "Libre Caslon Text", serif;
+      border: 0;
+      transition: all 0.2s linear 0s;
+
+      p {
+        transition: all 0.2s linear 0s;
+        position: absolute;
+        bottom: -4%;
+        left: 35%;
+      }
+      svg {
+        transition: all 0.2s linear 0s;
+        position: absolute;
+        bottom: 30%;
+        opacity: 0;
+        left: 70%;
+      }
+
+      &:hover {
+        svg {
+          opacity: 1;
+        }
+        p {
+          text-indent: -10px;
+        }
+      }
+    }
+  }
+}

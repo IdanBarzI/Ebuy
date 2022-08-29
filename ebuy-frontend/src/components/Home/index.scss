@@ -1,0 +1,119 @@
+@import "../../styles/variabels/variabels.scss";
+
+.home {
+  height: 100%;
+  width: 100%;
+  .opening {
+    //   display: flex;
+    //   align-items: center;
+    position: relative;
+    padding: 15vh 3rem;
+    height: 100vh;
+    width: 100%;
+    background: url("../../assets//images/Login/Saly-16.png") no-repeat;
+    background-size: cover;
+    .over-layout {
+      position: absolute;
+      width: 100%;
+      height: 25%;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+      background-image: linear-gradient(
+        $dark-page-background-color,
+        rgba(255, 0, 0, 0)
+      );
+    }
+    .video {
+      position: fixed;
+      animation: bounceInRight 1s;
+      top: -1%;
+      z-index: 100;
+      left: 70vw;
+      svg {
+        color: $input-text-color;
+        cursor: pointer;
+        position: absolute;
+        top: 5%;
+        left: 5%;
+      }
+      svg:hover {
+        color: $dark-error;
+      }
+    }
+    .hide-video {
+      position: fixed;
+      top: -1%;
+      animation: bounceOutRight 1s;
+      z-index: 100;
+      left: 70vw;
+      .sketchfab-embed-wrapper {
+        -webkit-animation: seconds 0.6s forwards;
+        -webkit-animation-iteration-count: 1;
+        -webkit-animation-delay: 0.6s;
+        animation: seconds 0.6s forwards;
+        animation-iteration-count: 1;
+        animation-delay: 0.6s;
+        position: relative;
+      }
+      svg {
+        color: $input-text-color;
+        cursor: pointer;
+        position: absolute;
+        top: 5%;
+        left: 5%;
+      }
+    }
+    section {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      h1 {
+        color: $dark-orange-color;
+        font-size: $text-l3;
+      }
+      h2 {
+        color: $dark-orange-color;
+        font-size: $text-l1;
+        word-break: break-all;
+      }
+    }
+  }
+}
+@-webkit-keyframes seconds {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    left: -9999px;
+  }
+}
+@keyframes seconds {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    left: -9999px;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .home {
+    height: 100%;
+    .opening {
+      background: url("https://images.unsplash.com/photo-1512580770426-cbed71c40e94?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1207&q=80")
+        40%;
+      section {
+        h1 {
+          font-size: $text-l1;
+        }
+        h2 {
+          font-size: $text-m1;
+        }
+      }
+    }
+  }
+}

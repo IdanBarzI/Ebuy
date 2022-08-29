@@ -1,0 +1,23 @@
+@import "../../styles/variabels/variabels.scss";
+
+.login-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: #ffffff;
+  background: url("../../assets/images/Login/BackGround.jpg") center no-repeat;
+  background-size: 150% 100%;
+
+  .login-canvas {
+    position: absolute;
+  }
+}
+
+@media only screen and (max-width: 1230px) {
+  .login-page {
+    background-size: 200% 100%;
+  }
+}

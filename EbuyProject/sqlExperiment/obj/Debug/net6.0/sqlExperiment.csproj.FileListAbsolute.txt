@@ -1,0 +1,15 @@
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\obj\Debug\net6.0\sqlExperiment.csproj.AssemblyReference.cache
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\obj\Debug\net6.0\sqlExperiment.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\obj\Debug\net6.0\sqlExperiment.AssemblyInfoInputs.cache
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\obj\Debug\net6.0\sqlExperiment.AssemblyInfo.cs
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\obj\Debug\net6.0\sqlExperiment.csproj.CoreCompileInputs.cache
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\bin\Debug\net6.0\sqlExperiment.deps.json
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\bin\Debug\net6.0\sqlExperiment.dll
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\bin\Debug\net6.0\sqlExperiment.pdb
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\bin\Debug\net6.0\Models.dll
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\bin\Debug\net6.0\Models.pdb
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\obj\Debug\net6.0\sqlExperiment.csproj.CopyComplete
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\obj\Debug\net6.0\sqlExperiment.dll
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\obj\Debug\net6.0\refint\sqlExperiment.dll
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\obj\Debug\net6.0\sqlExperiment.pdb
+C:\Users\nitza\Documents\Nitzan work\QAProject\EbuyProject\sqlExperiment\obj\Debug\net6.0\ref\sqlExperiment.dll
