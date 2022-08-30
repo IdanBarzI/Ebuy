@@ -77,7 +77,7 @@ const CartDrawer = () => {
               );
             }
           })}
-          <h1>Total Price: {cartData.totalPrice}$</h1>
+          <h1>Total Price: {cartData.totalPrice * 0.1}$</h1>
           <button
             disabled={cartData.totalQuantity <= 0}
             onClick={() => navigate("/checkout")}
