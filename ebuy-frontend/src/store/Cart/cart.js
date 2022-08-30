@@ -5,15 +5,13 @@ const initialAreaState = {
   products: [],
   productsCopy: [],
   textFilters: [
-    { index: 1, name: "Author", text: "" },
-    { index: 2, name: "Title", text: "" },
-    { index: 3, name: "Keywords", text: "" },
-    { index: 4, name: "Categories", text: "" },
+    { index: 1, name: "author", text: "" },
+    { index: 2, name: "title", text: "" },
+    { index: 3, name: "keywords", text: "" },
+    { index: 4, name: "category", text: "" },
   ],
-  cartItems: [],
   totalPrice: 0,
-  totalQuantities: 0,
-  totalPrice: 0,
+  totalQuantity: 0,
 };
 const cartSlice = createSlice({
   name: "cart",
@@ -27,41 +25,30 @@ const cartSlice = createSlice({
       state.productsCopy = action.payload;
     },
     AddProduct(state, action) {
-      console.log(action.payload);
-      state.cartItems = state.productsCopy.filter((p) => {
-        if (p.id === action.payload) {
-          p.quntity ? p.quntity++ : (p.quntity = 1);
-          state.totalQuantities++;
-          state.totalPrice = state.totalPrice + parseInt(p.price);
-          return true;
-        }
-      });
+      console.log(action.payload.bogo);
       state.products = state.products.map((p) => {
-        if (p.id === action.payload) {
+        if (p.id === action.payload.id) {
+          if (!action.payload.bogo) {
+            state.totalPrice += p.price;
+          }
           p.quntity ? p.quntity++ : (p.quntity = 1);
+          state.totalQuantity++;
         }
         return p;
       });
     },
     SubProduct(state, action) {
-      state.cartItems = state.productsCopy.filter((p) => {
-        if (p.id === action.payload && p.quntity > 0) {
-          p.quntity--;
-          state.totalQuantities--;
-          state.totalPrice = state.totalPrice - p.price;
-          if (p.quntity > 0) {
-            return true;
-          }
-        }
-      });
       state.products = state.products.map((p) => {
         if (p.id === action.payload && p.quntity > 0) {
           p.quntity--;
+          state.totalPrice -= p.price;
+          state.totalQuantity--;
         }
         return p;
       });
     },
     filterByText(state, action) {
+      console.log(action.payload.value);
       state.textFilters[action.payload.index - 1].text = action.payload.value;
       state.products = state.productsCopy.map((product) => {
         const filtered = state.textFilters.filter((filter) => {

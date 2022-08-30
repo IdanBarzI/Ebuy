@@ -28,7 +28,6 @@ const CartDrawer = () => {
       clearTimeout(timeoutId);
     };
   }, []);
-  console.log(cartData.cartItems);
   return (
     <>
       <div className="cart-page">
@@ -80,14 +79,14 @@ const CartDrawer = () => {
           })}
           <h1>Total Price: {cartData.totalPrice}$</h1>
           <button
-            disabled={cartData.cartItems.length <= 0}
+            disabled={cartData.totalQuantity <= 0}
             onClick={() => navigate("/checkout")}
           >
             <p>CheckOut</p>
             <FontAwesomeIcon icon={faArrowRight} />
           </button>
           <div className="input-error">
-            {cartData.cartItems.length <= 0 &&
+            {cartData.totalQuantity <= 0 &&
               "You Need to have at least one item in yout cart to checkout"}
           </div>
         </div>

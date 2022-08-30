@@ -1,15 +1,41 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Formik } from "formik";
+
+import useAxios from "../../../hooks/use-axios";
+
 import "./index.scss";
 
 const Card = () => {
   const mounthRef = useRef();
+  const [creditCardTypes, setCreditCardTypes] = useState([]);
   const buy = (a) => {
     console.log(a);
   };
 
+  const {
+    isLoading,
+    fetchError,
+    sendRequest: sendGetCreditCardTypesRequest,
+  } = useAxios();
+
+  const GetCreditCardTypes = async (user) => {
+    try {
+      await sendGetCreditCardTypesRequest(
+        {
+          method: "Get",
+          url: `EbuyStore/GetCreditCardTypes`,
+        },
+        (data) => {
+          console.log(data);
+          setCreditCardTypes(data);
+        }
+      );
+    } catch (e) {}
+  };
+
   useEffect(() => {
     todayDate();
+    GetCreditCardTypes();
   }, []);
 
   const todayDate = () => {
@@ -100,9 +126,9 @@ const Card = () => {
                     onBlur={handleBlur}
                     value={values.cardType}
                   >
-                    <option>Master Card </option>
-                    <option>Visa </option>
-                    <option>American Express </option>
+                    {creditCardTypes.map((card) => (
+                      <option>{card.name}</option>
+                    ))}
                   </select>
                 </div>
                 <div className="input-error">

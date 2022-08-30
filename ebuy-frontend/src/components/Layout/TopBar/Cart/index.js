@@ -15,7 +15,7 @@ const Cart = () => {
         icon={faCartShopping}
         onClick={() => dispatch(cartActions.ToggelCart())}
       />
-      <p>{cartData.totalQuantities}</p>
+      <p>{cartData.totalQuantity}</p>
     </>
   );
 };

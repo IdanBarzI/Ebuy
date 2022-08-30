@@ -16,7 +16,7 @@ const Products = () => {
   const {
     isLoading,
     fetchError,
-    sendRequest: sendRegisterClubMemberRequest,
+    sendRequest: sendGetProductsRequest,
   } = useAxios();
 
   const {
@@ -26,16 +26,16 @@ const Products = () => {
   } = useAxios();
 
   useEffect(() => {
-    registerClubMember();
+    getProducts();
     const user = JSON.parse(window.localStorage.getItem("user"));
-    if (user.isClubMember) {
+    if (user?.isClubMember) {
       getBogo(user);
     }
   }, []);
 
-  const registerClubMember = async (user) => {
+  const getProducts = async (user) => {
     try {
-      await sendRegisterClubMemberRequest(
+      await sendGetProductsRequest(
         {
           method: "GET",
           url: `EbuyStore/GetAllProductsInData`,
@@ -49,16 +49,17 @@ const Products = () => {
 
   const getBogo = async (user) => {
     try {
-      console.log(user);
       await sendGetBogoRequest(
         {
           method: "POST",
           url: `ClubMember/AddBogoProductTocart`,
-          data: { user },
+          data: { ...user },
         },
         (data) => {
           console.log(data);
-          dispatch(cartActions.SetProducts(data));
+          data.map((product) => {
+            dispatch(cartActions.AddProduct({ id: product.id, bogo: true }));
+          });
         }
       );
     } catch (e) {}
@@ -99,13 +100,15 @@ const Products = () => {
                   <div className="product-details">
                     <h1>{p.title}</h1>
                     <h3>Author: {p.author}</h3>
-                    <p>Publication Date: {p.publishdate}</p>
+                    <p>Publication Date: {p.publishdate.slice(2, 10)}</p>
                     <p>Price: {p.price}$</p>
                     <div className="actions">
                       <FontAwesomeIcon
                         icon={faAdd}
                         color="rgb(32, 117, 3)"
-                        onClick={() => dispatch(cartActions.AddProduct(p.id))}
+                        onClick={() =>
+                          dispatch(cartActions.AddProduct({ id: p.id }))
+                        }
                       />
                       <p>{p.quntity || 0}</p>
                       <FontAwesomeIcon

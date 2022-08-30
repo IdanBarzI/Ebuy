@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialAreaState = {
   shipment: {
-    shipmentOption: "Email",
+    shipmentOption: "electronically",
     shipmentData: {},
   },
   card: {},

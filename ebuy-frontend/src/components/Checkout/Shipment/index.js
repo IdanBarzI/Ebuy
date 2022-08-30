@@ -1,21 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { checkoutActions } from "../../../store/Checkout";
+import AuthContext from "../../../context/AuthContext";
 
 import { Formik } from "formik";
 import Modal from "../../../UiKit/Modal";
 
 import "./index.scss";
-import Select from "./Select";
 import useAxios from "../../../hooks/use-axios";
 
 const Shipment = () => {
   const checkoutData = useSelector((state) => state.checkout);
+  const cartData = useSelector((state) => state.cart);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [deliveryModes, setDeliveryModes] = useState([]);
+  const [shipmentOptions, setShipmentOptions] = useState([]);
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
+  const [shipmentCost, setShipmentCost] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -37,13 +40,26 @@ const Shipment = () => {
     sendRequest: sendGetDeliveryModesRequest,
   } = useAxios();
 
+  const {
+    isLoadingggg,
+    fetchErrorrrr,
+    sendRequest: sendGetShipmentOptionsRequest,
+  } = useAxios();
+
+  const {
+    isLoadinggggg,
+    fetchErrorrrrr,
+    sendRequest: sendGetShipmentCalculateRequest,
+  } = useAxios();
+
   useEffect(() => {
     getDeliveryModes();
+    getShipmentOptions();
     getCountries();
     getStates();
   }, []);
 
-  const getCountries = async (user) => {
+  const getCountries = async () => {
     try {
       await sendGetCountriesRequest(
         {
@@ -51,13 +67,14 @@ const Shipment = () => {
           url: `EbuyStore/GetCountries`,
         },
         (data) => {
+          console.log(data);
           setCountries(data);
         }
       );
     } catch (e) {}
   };
 
-  const getStates = async (user) => {
+  const getStates = async () => {
     try {
       await sendGetStatesRequest(
         {
@@ -71,7 +88,7 @@ const Shipment = () => {
     } catch (e) {}
   };
 
-  const getDeliveryModes = async (user) => {
+  const getDeliveryModes = async () => {
     try {
       await sendGetDeliveryModesRequest(
         {
@@ -85,12 +102,60 @@ const Shipment = () => {
     } catch (e) {}
   };
 
+  const getShipmentOptions = async () => {
+    try {
+      await sendGetShipmentOptionsRequest(
+        {
+          method: "Get",
+          url: `EbuyStore/GetShipmentOptions`,
+        },
+        (data) => {
+          setShipmentOptions(data);
+        }
+      );
+    } catch (e) {}
+  };
+
+  const getShipmentCalculate = async () => {
+    try {
+      console.log({
+        ShipmentAreaId: checkoutData.shipment.shipmentData.country,
+        ShipmentOptionId: checkoutData.shipment.shipmentData.deliveryMode,
+        AmountOfProducts: cartData.totalQuantity,
+      });
+      await sendGetShipmentCalculateRequest(
+        {
+          method: "POST",
+          url: `EbuyStore/ShipmentCalculate`,
+          data: {
+            ShipmentAreaId: checkoutData.shipment.shipmentData.country,
+            ShipmentOptionId: checkoutData.shipment.shipmentData.deliveryMode,
+            AmountOfProducts: cartData.totalQuantity,
+          },
+        },
+        (data) => {
+          console.log(data);
+          setShipmentCost((prev) => {
+            if (prev.lowestCost !== data.lowestCost) {
+              return data;
+            }
+            return prev;
+          });
+        }
+      );
+    } catch (e) {}
+  };
+
+  console.log(checkoutData.shipment.shipmentData);
+
+  const { user } = useContext(AuthContext);
+
   return (
     <>
       <>
         <div className="shipment-detailes">
           <div className="row">
-            Shipment option
+            Delivery Mode
             <select
               name="shipmentOption"
               onChange={(e) =>
@@ -102,8 +167,11 @@ const Shipment = () => {
                 )
               }
             >
-              <option>Email </option>
-              <option>Physical </option>
+              {deliveryModes.map((deliveryMode) => (
+                <option key={deliveryMode.id}>
+                  {deliveryMode.description}{" "}
+                </option>
+              ))}
             </select>
           </div>
           <button onClick={() => setModalOpen((prevState) => !prevState)}>
@@ -117,7 +185,7 @@ const Shipment = () => {
         title="Shipment Detailes"
         scroll={false}
       >
-        {checkoutData.shipment.shipmentOption === "Email" ? (
+        {checkoutData.shipment.shipmentOption === "electronically" ? (
           <Formik
             initialValues={{}}
             validate={(values) => {
@@ -165,7 +233,9 @@ const Shipment = () => {
                         placeholder="email"
                         type="email"
                         name="email"
-                        defaultValue={checkoutData.shipment.shipmentData.email}
+                        defaultValue={
+                          user.email || checkoutData.shipment.shipmentData.email
+                        }
                         onChange={handleChange}
                         onBlur={handleBlur}
                       ></input>
@@ -191,6 +261,7 @@ const Shipment = () => {
               pob: "",
             }}
             validate={(values) => {
+              console.log("validate");
               const errors = {};
               if (
                 !values.deliveryMode &&
@@ -198,6 +269,9 @@ const Shipment = () => {
               ) {
                 errors.deliveryMode = "Delivery Mode is Required";
               } else if (values.deliveryMode) {
+                if (values.country) {
+                  getShipmentCalculate();
+                }
                 dispatch(
                   checkoutActions.setShipmentData({
                     field: "deliveryMode",
@@ -211,6 +285,9 @@ const Shipment = () => {
               ) {
                 errors.country = "Country is Required";
               } else if (values.country) {
+                if (values.deliveryMode) {
+                  getShipmentCalculate();
+                }
                 dispatch(
                   checkoutActions.setShipmentData({
                     field: "country",
@@ -296,7 +373,7 @@ const Shipment = () => {
                 <form className="form shipment-form" onSubmit={handleSubmit}>
                   <div className="shipment-detailes">
                     <div className="row">
-                      Delivery Mode
+                      Shipment Option
                       <select
                         name="deliveryMode"
                         onChange={handleChange}
@@ -305,9 +382,12 @@ const Shipment = () => {
                           checkoutData.shipment.shipmentData.deliveryMode
                         }
                       >
-                        {deliveryModes.map((deliveryMode) => (
-                          <option key={deliveryMode.id}>
-                            {deliveryMode.description}{" "}
+                        {shipmentOptions.map((shipmentOption) => (
+                          <option
+                            key={shipmentOption.id}
+                            value={shipmentOption.id}
+                          >
+                            {shipmentOption.description}
                           </option>
                         ))}
                       </select>
@@ -328,7 +408,10 @@ const Shipment = () => {
                         }
                       >
                         {countries.map((country) => (
-                          <option key={country.country}>
+                          <option
+                            key={country.country}
+                            value={country.shipmentAreaId}
+                          >
                             {country.country}{" "}
                           </option>
                         ))}
@@ -337,22 +420,26 @@ const Shipment = () => {
                         {errors.country && touched.country && errors.country}
                       </div>
                     </div>
-                    <div className="row">
-                      State
-                      <select
-                        name="state"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        defaultValue={checkoutData.shipment.shipmentData.state}
-                      >
-                        {states.map((state) => (
-                          <option key={state.state}>{state.name} </option>
-                        ))}
-                      </select>
-                      <div className="input-error">
-                        {errors.state && touched.state && errors.state}
+                    {values.country === "2" && (
+                      <div className="row">
+                        State
+                        <select
+                          name="state"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          defaultValue={
+                            checkoutData.shipment.shipmentData.state
+                          }
+                        >
+                          {states.map((state) => (
+                            <option key={state.state}>{state.name} </option>
+                          ))}
+                        </select>
+                        <div className="input-error">
+                          {errors.state && touched.state && errors.state}
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <div className="row">
                       <input
                         placeholder="Street"
@@ -414,6 +501,16 @@ const Shipment = () => {
                       </div>
                     </div>
                   </div>
+                  {shipmentCost.shipmentDuration && (
+                    <div>
+                      <p>Cost :{shipmentCost?.lowestCost}$</p>
+                      <p>Company :{shipmentCost?.nameCompany}</p>
+                      <p>
+                        shipment Duration :
+                        {shipmentCost?.shipmentDuration.slice(2, 10)}
+                      </p>
+                    </div>
+                  )}
                   <button type="submit">Submit</button>
                 </form>
               </>
