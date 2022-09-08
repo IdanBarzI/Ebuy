@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { cartActions } from "../../../../../store/Cart";
+import { productsActions } from "../../../../../store/Products";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import cover from "../../../../../assets/images/E-buy.png";
 import {
@@ -12,12 +13,11 @@ import {
 import "./index.scss";
 
 const CartDrawer = () => {
-  const [show, setShow] = useState(false);
-  const navigate = useNavigate();
-
   const cartData = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  console.log(cartData);
+
+  const [show, setShow] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let timeoutId = setTimeout(() => {
@@ -50,34 +50,33 @@ const CartDrawer = () => {
               : "cart-drawer-hide-fast"
           }`}
         >
-          {cartData.products.map((p) => {
-            if (p && p.quntity > 0) {
-              return (
-                <div key={p.id} className="product">
-                  <img src={cover} />
-                  <div className="product-details">
-                    <h1>{p.title}</h1>
-                    <h3>Author: {p.author}</h3>
-                    <p>Price: {p.price}$</p>
-                    <div className="actions">
-                      <FontAwesomeIcon
-                        icon={faAdd}
-                        color="rgb(32, 117, 3)"
-                        onClick={() => dispatch(cartActions.AddProduct(p.id))}
-                      />
-                      <p>{p.quntity}</p>
+          {cartData.cartProducts.map((p) => {
+            return (
+              <div key={p.id} className="product">
+                <div className="product-details">
+                  <h1>{p.title}</h1>
+                  <h3>Author: {p.author}</h3>
+                  <p>Price: {p.bogo ? <>FREE</> : <>{p.price} $</>}</p>
+                  <div className="actions">
+                    {p.bogo ? (
+                      <>BOGO</>
+                    ) : (
                       <FontAwesomeIcon
                         icon={faSubtract}
+                        size="lg"
                         color="rgb(177, 3, 3)"
-                        onClick={() => dispatch(cartActions.SubProduct(p.id))}
+                        onClick={() => {
+                          dispatch(cartActions.SubProduct({ id: p.id }));
+                          dispatch(productsActions.AddProduct({ product: p }));
+                        }}
                       />
-                    </div>
+                    )}
                   </div>
                 </div>
-              );
-            }
+              </div>
+            );
           })}
-          <h1>Total Price: {cartData.totalPrice * 0.1}$</h1>
+          <h1>Total Price: {cartData.totalPrice}$</h1>
           <button
             disabled={cartData.totalQuantity <= 0}
             onClick={() => navigate("/checkout")}

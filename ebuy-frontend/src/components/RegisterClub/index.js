@@ -30,7 +30,6 @@ const RegisterClub = () => {
 
   const registerClubMember = async (user) => {
     try {
-      console.log(user);
       await sendRegisterClubMemberRequest(
         {
           method: "POST",
@@ -38,7 +37,6 @@ const RegisterClub = () => {
           data: { ...user, purchasedProducts: [] },
         },
         (data) => {
-          console.log(data);
           signIn(data);
         }
       );
@@ -93,7 +91,6 @@ const RegisterClub = () => {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          console.log("asd");
           delete values.repassword;
           registerClubMember(values);
           setTimeout(() => {

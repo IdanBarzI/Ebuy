@@ -7,10 +7,9 @@ import "./index.scss";
 
 const Card = () => {
   const mounthRef = useRef();
+  const cardNumberRef = useRef();
   const [creditCardTypes, setCreditCardTypes] = useState([]);
-  const buy = (a) => {
-    console.log(a);
-  };
+  const buy = (a) => {};
 
   const {
     isLoading,
@@ -26,7 +25,6 @@ const Card = () => {
           url: `EbuyStore/GetCreditCardTypes`,
         },
         (data) => {
-          console.log(data);
           setCreditCardTypes(data);
         }
       );
@@ -42,56 +40,63 @@ const Card = () => {
     var today = new Date();
     var mm = String(today.getMonth() + 1).padStart(2, "0");
     var yyyy = today.getFullYear();
-    console.log(yyyy + "-" + mm);
     mounthRef.current.min = yyyy + "-" + mm;
   };
-
   return (
     <div className="card-detailes">
       <Formik
         initialValues={{
-          cardType: "Visa",
+          cardType: "Card Type",
           cardNumber: "",
           cardExp: "",
           cardName: "",
         }}
         validate={(values) => {
           const errors = {};
+          console.log(values);
+          const card = creditCardTypes.filter((c) => {
+            if (c.name === values.cardType) {
+              return true;
+            }
+          });
+          if (values.cardNumber.length <= 4) {
+            console.log(card[0].prefix.trim());
+            values.cardNumber = card[0].prefix.trim();
+            // cardNumberRef.current = values.cardNumber;
+          }
+          if (values.cardNumber.length <= 4) {
+            console.log(card[0].prefix.trim());
+            values.cardNumber = card[0].prefix.trim();
+            // cardNumberRef.current = values.cardNumber;
+          }
           if (!values.cardNumber) {
             errors.cardNumber = "Card Number is Required";
           } else if (
-            values.cardType === "Visa" &&
-            values.cardNumber.length < 16
+            (values.cardType === "Visa" ||
+              values.cardType === "MasterCardLocal") &&
+            values.cardNumber.length < 19
           ) {
-            errors.cardNumber = "Visa Card Number must contain 16 digits";
+            errors.cardNumber = `${card[0].name} Card Number must contain 16 digits`;
           } else if (
-            values.cardType === "Visa" &&
-            values.cardNumber.substring(0, 4) !== "4580"
+            (values.cardType === "Visa" ||
+              values.cardType === "MasterCardLocal") &&
+            values.cardNumber.substring(0, 4) !== card[0].prefix.trim()
           ) {
-            errors.cardNumber = "Visa Card Number must start with 4580";
-          } else if (
-            values.cardType === "Master Card" &&
-            values.cardNumber.length < 16
-          ) {
-            errors.cardNumber =
-              "Master Card Card Number must contain 16 digits";
-          } else if (
-            values.cardType === "Master Card" &&
-            values.cardNumber.substring(0, 4) !== "5326"
-          ) {
-            errors.cardNumber = "Master Card Card Number must start with 5326";
+            errors.cardNumber = `${
+              card[0].name
+            } Card Number must start with ${card[0].prefix.trim()}`;
           } else if (
             values.cardType === "American Express" &&
-            values.cardNumber.length < 15
+            values.cardNumber.length < 18
           ) {
-            errors.cardNumber =
-              "American Express Card Number must contain 15 digits";
+            errors.cardNumber = `${card[0].name} Card Number must contain 15 digits`;
           } else if (
             values.cardType === "American Express" &&
-            values.cardNumber.substring(0, 4) !== "3434"
+            values.cardNumber.substring(0, 4) !== card[0].prefix.trim()
           ) {
-            errors.cardNumber =
-              "American Express Card Number must start with 3434";
+            errors.cardNumber = `${
+              card[0].name
+            } Card Number must start with ${card[0].prefix.trim()}`;
           }
           if (!values.cardExp) {
             errors.cardExp = "Card Expiration Date is Required";
@@ -127,7 +132,7 @@ const Card = () => {
                     value={values.cardType}
                   >
                     {creditCardTypes.map((card) => (
-                      <option>{card.name}</option>
+                      <option key={card.name}>{card.name}</option>
                     ))}
                   </select>
                 </div>
@@ -136,15 +141,16 @@ const Card = () => {
                 </div>
               </div>
               <div className="coulmn">
+                Card number
                 <input
-                  placeholder="Card number"
+                  placeholder="xxxx-xxxx-xxxx-xxxx"
                   type="cardNumber"
                   name="cardNumber"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.cardNumber}
                   maxLength={
-                    values.cardType === "American Express" ? "15" : "16"
+                    values.cardType === "American Express" ? "18" : "19"
                   }
                 ></input>
                 <div className="input-error">
@@ -154,19 +160,22 @@ const Card = () => {
             </div>
             <div className="row">
               <div className="coulmn">
+                Card owner
                 <input
-                  placeholder="Card owner"
+                  placeholder="Jon Dow"
                   type="cardName"
                   name="cardName"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.cardName}
+                  ref={cardNumberRef}
                 ></input>
                 <div className="input-error">
                   {errors.cardName && touched.cardName && errors.cardName}
                 </div>
               </div>
               <div className="coulmn">
+                Expiration Date
                 <input
                   type="month"
                   id="start"

@@ -31,8 +31,6 @@ const Book = () => {
   ]);
   useEffect(() => {
     if (!!bookRef.current) {
-      console.log(bookRef.current);
-
       gsap.to(bookRef.current.rotation, { z: 3.1, duration: 1 });
       gsap.to(bookRef.current.rotation, { x: 89.4, duration: 1 });
       gsap.to(leftRef.current.rotation, { z: 1.5, duration: 1, delay: 1 });

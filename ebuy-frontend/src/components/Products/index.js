@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CartDrawer from "../Layout/TopBar/Cart/CartDrawer";
 import { useSelector, useDispatch } from "react-redux";
+import { productsActions } from "../../store/Products";
 import { cartActions } from "../../store/Cart";
 import cover from "../../assets/images/E-buy.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,10 +9,24 @@ import { faAdd, faSubtract } from "@fortawesome/free-solid-svg-icons";
 import useAxios from "../../hooks/use-axios";
 import "./index.scss";
 import Filters from "./Filters";
+import Pagination from "../../UiKit/Pagination/pagination";
+
+const PER_PAGE = 3;
 
 const Products = () => {
   const cartData = useSelector((state) => state.cart);
+  const productsData = useSelector((state) => state.products);
   const dispatch = useDispatch();
+
+  const [questionsPerPage, setQuestionsPerPage] = useState(PER_PAGE);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastQuestion = currentPage * questionsPerPage;
+  const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
+  const currentQuestions = productsData.products.slice(
+    indexOfFirstQuestion,
+    indexOfLastQuestion
+  );
 
   const {
     isLoading,
@@ -41,11 +56,19 @@ const Products = () => {
           url: `EbuyStore/GetAllProductsInData`,
         },
         (data) => {
+          dispatch(productsActions.SetProducts(data));
           dispatch(cartActions.SetProducts(data));
         }
       );
     } catch (e) {}
   };
+
+  const paginate = (number) => {
+    setCurrentPage(number);
+  };
+
+  console.log(cartData);
+  console.log(productsData);
 
   const getBogo = async (user) => {
     try {
@@ -56,9 +79,10 @@ const Products = () => {
           data: { ...user },
         },
         (data) => {
-          console.log(data);
           data.map((product) => {
+            console.log(product);
             dispatch(cartActions.AddProduct({ id: product.id, bogo: true }));
+            dispatch(productsActions.SubProduct({ id: product.id }));
           });
         }
       );
@@ -92,7 +116,7 @@ const Products = () => {
             </div>
           </>
         ) : (
-          cartData.products.map((p) => {
+          currentQuestions.map((p) => {
             if (p) {
               return (
                 <div key={p.id} className="product">
@@ -106,15 +130,11 @@ const Products = () => {
                       <FontAwesomeIcon
                         icon={faAdd}
                         color="rgb(32, 117, 3)"
-                        onClick={() =>
-                          dispatch(cartActions.AddProduct({ id: p.id }))
-                        }
-                      />
-                      <p>{p.quntity || 0}</p>
-                      <FontAwesomeIcon
-                        icon={faSubtract}
-                        color="rgb(177, 3, 3)"
-                        onClick={() => dispatch(cartActions.SubProduct(p.id))}
+                        size="lg"
+                        onClick={() => {
+                          dispatch(cartActions.AddProduct({ id: p.id }));
+                          dispatch(productsActions.SubProduct({ id: p.id }));
+                        }}
                       />
                     </div>
                   </div>
@@ -123,6 +143,14 @@ const Products = () => {
             }
           })
         )}
+      </div>
+      <div style={{ width: "80vw" }}>
+        <Pagination
+          itemsPerPage={questionsPerPage}
+          currentPage={currentPage}
+          paginate={paginate}
+          totalItems={productsData.products.length}
+        />
       </div>
     </div>
   );

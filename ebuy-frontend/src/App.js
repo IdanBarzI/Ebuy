@@ -19,7 +19,6 @@ import Checkout from "./components/Checkout";
 
 const App = () => {
   const { loggedIn, user } = useContext(AuthContext);
-  console.log(user);
   return (
     <>
       <Routes>

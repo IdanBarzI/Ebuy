@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import products from "../../mocks/products";
+
 const initialAreaState = {
   showCart: false,
   products: [],
   productsCopy: [],
+  cartProducts: [],
   textFilters: [
     { index: 1, name: "author", text: "" },
     { index: 2, name: "title", text: "" },
@@ -21,54 +22,42 @@ const cartSlice = createSlice({
       state.showCart = !state.showCart;
     },
     SetProducts(state, action) {
-      state.products = action.payload;
       state.productsCopy = action.payload;
     },
     AddProduct(state, action) {
-      console.log(action.payload.bogo);
-      state.products = state.products.map((p) => {
-        if (p.id === action.payload.id) {
-          if (!action.payload.bogo) {
-            state.totalPrice += p.price;
+      state.cartProducts = [
+        ...state.cartProducts,
+        ...state.productsCopy.filter((p) => {
+          if (p.id === action.payload.id) {
+            console.log(action.payload.bogo);
+            p.bogo = false;
+            if (action.payload.bogo) {
+              console.log("isbogo");
+              p.bogo = true;
+            } else {
+              state.totalPrice += p.price;
+            }
+            return true;
           }
-          p.quntity ? p.quntity++ : (p.quntity = 1);
-          state.totalQuantity++;
-        }
-        return p;
-      });
+        }),
+      ];
+      state.totalQuantity++;
     },
     SubProduct(state, action) {
-      state.products = state.products.map((p) => {
-        if (p.id === action.payload && p.quntity > 0) {
-          p.quntity--;
-          state.totalPrice -= p.price;
-          state.totalQuantity--;
-        }
-        return p;
-      });
-    },
-    filterByText(state, action) {
-      console.log(action.payload.value);
-      state.textFilters[action.payload.index - 1].text = action.payload.value;
-      state.products = state.productsCopy.map((product) => {
-        const filtered = state.textFilters.filter((filter) => {
-          return String(product[filter.name])
-            .toLocaleLowerCase()
-            .includes(filter.text.toLocaleLowerCase());
-        });
-        if (filtered.length >= state.textFilters.length) {
-          return product;
+      let flag = false;
+      state.cartProducts = state.cartProducts.filter((p) => {
+        console.log(p.bogo);
+        if (flag || p.id !== action.payload.id) {
+          return true;
+        } else if (p.bogo) {
+          state.totalPrice = state.totalPrice;
+          flag = true;
         } else {
-          return null;
+          state.totalPrice -= p.price;
+          flag = true;
         }
       });
-    },
-    clearFilters(state, action) {
-      state.textFilters = state.textFilters.map((filter) => {
-        filter.text = "";
-        return filter;
-      });
-      state.products = state.productsCopy;
+      state.totalQuantity--;
     },
   },
 });

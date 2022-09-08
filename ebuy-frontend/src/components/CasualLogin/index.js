@@ -23,27 +23,26 @@ const CasualLoginClub = () => {
     };
   }, []);
 
-  const {
-    isLoading,
-    fetchError,
-    sendRequest: sendLoginCasualRequest,
-  } = useAxios();
+  // const {
+  //   isLoading,
+  //   fetchError,
+  //   sendRequest: sendLoginCasualRequest,
+  // } = useAxios();
 
-  const loginCasual = async (user) => {
-    try {
-      console.log(user);
-      await sendLoginCasualRequest(
-        {
-          method: "POST",
-          url: `CasualCustomer/Register`,
-          data: { ...user, isClubMember: false, purchasedProducts: [] },
-        },
-        (data) => {
-          signIn(data);
-        }
-      );
-    } catch (e) {}
-  };
+  // const loginCasual = async (user) => {
+  //   try {
+  //     await sendLoginCasualRequest(
+  //       {
+  //         method: "POST",
+  //         url: `CasualCustomer/Register`,
+  //         data: { ...user, isClubMember: false, purchasedProducts: [] },
+  //       },
+  //       (data) => {
+  //         signIn(data);
+  //       }
+  //     );
+  //   } catch (e) {}
+  // };
 
   return (
     <div className="login-club">
@@ -56,16 +55,6 @@ const CasualLoginClub = () => {
         }}
         validate={(values) => {
           const errors = {};
-          if (!values.loginName) {
-            errors.loginName = "User Name is Required";
-          } else if (!values.loginName) {
-            errors.loginName = "User Name must be less then 50 letters";
-          }
-          if (!values.addres) {
-            errors.addres = "address is Required";
-          } else if (!values.addres) {
-            errors.addres = "address must be less then 50 letters";
-          }
           if (!values.email) {
             errors.email = "email is Required";
           } else if (!values.email) {
@@ -74,7 +63,8 @@ const CasualLoginClub = () => {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          loginCasual(values);
+          console.log(values);
+          signIn(values);
           setTimeout(() => {
             setSubmitting(false);
           }, 400);
@@ -93,14 +83,14 @@ const CasualLoginClub = () => {
             <h1 className="login-headers">
               <AnimatedLetters
                 letterClass={letterClass}
-                strArray={"Casual Login".split("")}
+                strArray={"Login".split("")}
                 idx={5}
               />
             </h1>
             <h2 className="login-headers">
               <AnimatedLetters
                 letterClass={letterClass}
-                strArray={"Club Member".split("")}
+                strArray={"Casual Login".split("")}
                 idx={17}
               />
             </h2>
@@ -109,7 +99,6 @@ const CasualLoginClub = () => {
                 placeholder="User Name"
                 name="loginName"
                 maxLength={50}
-                required
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.loginName}
@@ -133,7 +122,6 @@ const CasualLoginClub = () => {
             <div className="row last">
               <input
                 placeholder="address"
-                required
                 type="address"
                 name="addres"
                 onChange={handleChange}

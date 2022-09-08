@@ -67,7 +67,6 @@ const Shipment = () => {
           url: `EbuyStore/GetCountries`,
         },
         (data) => {
-          console.log(data);
           setCountries(data);
         }
       );
@@ -116,25 +115,19 @@ const Shipment = () => {
     } catch (e) {}
   };
 
-  const getShipmentCalculate = async () => {
+  const getShipmentCalculate = async (ShipmentAreaId, ShipmentOptionId) => {
     try {
-      console.log({
-        ShipmentAreaId: checkoutData.shipment.shipmentData.country,
-        ShipmentOptionId: checkoutData.shipment.shipmentData.deliveryMode,
-        AmountOfProducts: cartData.totalQuantity,
-      });
       await sendGetShipmentCalculateRequest(
         {
           method: "POST",
           url: `EbuyStore/ShipmentCalculate`,
           data: {
-            ShipmentAreaId: checkoutData.shipment.shipmentData.country,
-            ShipmentOptionId: checkoutData.shipment.shipmentData.deliveryMode,
+            ShipmentAreaId,
+            ShipmentOptionId,
             AmountOfProducts: cartData.totalQuantity,
           },
         },
         (data) => {
-          console.log(data);
           setShipmentCost((prev) => {
             if (prev.lowestCost !== data.lowestCost) {
               return data;
@@ -145,8 +138,6 @@ const Shipment = () => {
       );
     } catch (e) {}
   };
-
-  console.log(checkoutData.shipment.shipmentData);
 
   const { user } = useContext(AuthContext);
 
@@ -175,7 +166,7 @@ const Shipment = () => {
             </select>
           </div>
           <button onClick={() => setModalOpen((prevState) => !prevState)}>
-            Shipment address Details
+            Shipment Details
           </button>
         </div>
       </>
@@ -255,29 +246,20 @@ const Shipment = () => {
               deliveryMode: "",
               country: "",
               state: "",
+              city: "",
               street: "",
+              reciverName: "",
               houseNumber: "",
               zipCode: "",
               pob: "",
             }}
             validate={(values) => {
-              console.log("validate");
               const errors = {};
               if (
                 !values.deliveryMode &&
                 !checkoutData.shipment.shipmentData.deliveryMode
               ) {
                 errors.deliveryMode = "Delivery Mode is Required";
-              } else if (values.deliveryMode) {
-                if (values.country) {
-                  getShipmentCalculate();
-                }
-                dispatch(
-                  checkoutActions.setShipmentData({
-                    field: "deliveryMode",
-                    value: values.deliveryMode,
-                  })
-                );
               }
               if (
                 !values.country &&
@@ -285,15 +267,15 @@ const Shipment = () => {
               ) {
                 errors.country = "Country is Required";
               } else if (values.country) {
-                if (values.deliveryMode) {
-                  getShipmentCalculate();
-                }
                 dispatch(
                   checkoutActions.setShipmentData({
                     field: "country",
                     value: values.country,
                   })
                 );
+                if (values.deliveryMode) {
+                  getShipmentCalculate();
+                }
               }
               if (!values.state && !checkoutData.shipment.shipmentData.state) {
                 errors.state = "State is Required";
@@ -353,6 +335,27 @@ const Shipment = () => {
                     value: values.zipCode,
                   })
                 );
+              }
+              if (values.deliveryMode && values.country) {
+                dispatch(
+                  checkoutActions.setShipmentData({
+                    field: "deliveryMode",
+                    value: values.deliveryMode,
+                  })
+                );
+                dispatch(
+                  checkoutActions.setShipmentData({
+                    field: "country",
+                    value: values.country,
+                  })
+                );
+                console.log({
+                  ShipmentAreaId: checkoutData.shipment.shipmentData.country,
+                  ShipmentOptionId:
+                    checkoutData.shipment.shipmentData.deliveryMode,
+                  AmountOfProducts: cartData.totalQuantity,
+                });
+                getShipmentCalculate(values.country, values.deliveryMode);
               }
               return errors;
             }}
@@ -442,6 +445,20 @@ const Shipment = () => {
                     )}
                     <div className="row">
                       <input
+                        placeholder="City"
+                        type="city"
+                        name="city"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        maxLength="50"
+                        defaultValue={checkoutData.shipment.shipmentData.city}
+                      ></input>
+                      <div className="input-error">
+                        {errors.city && touched.city && errors.city}
+                      </div>
+                    </div>
+                    <div className="row">
+                      <input
                         placeholder="Street"
                         type="street"
                         name="street"
@@ -452,6 +469,25 @@ const Shipment = () => {
                       ></input>
                       <div className="input-error">
                         {errors.street && touched.street && errors.street}
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <input
+                        placeholder="Reciver Name"
+                        type="reciverName"
+                        name="reciverName"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        maxLength="50"
+                        defaultValue={
+                          checkoutData.shipment.shipmentData.reciverName
+                        }
+                      ></input>
+                      <div className="input-error">
+                        {errors.reciverName &&
+                          touched.reciverName &&
+                          errors.reciverName}
                       </div>
                     </div>
                     <div className="row">
@@ -503,11 +539,15 @@ const Shipment = () => {
                   </div>
                   {shipmentCost.shipmentDuration && (
                     <div>
-                      <p>Cost :{shipmentCost?.lowestCost}$</p>
-                      <p>Company :{shipmentCost?.nameCompany}</p>
                       <p>
-                        shipment Duration :
-                        {shipmentCost?.shipmentDuration.slice(2, 10)}
+                        Shipment Cost - <b>{shipmentCost?.lowestCost}$</b>
+                      </p>
+                      <p>
+                        Shipment Company - <b>{shipmentCost?.nameCompany}</b>
+                      </p>
+                      <p>
+                        Shipment Duration -
+                        <b>{shipmentCost?.shipmentDuration.slice(2, 10)}</b>
                       </p>
                     </div>
                   )}

@@ -15,7 +15,6 @@ const checkoutSlice = createSlice({
       state.shipment[action.payload.field] = action.payload.value;
     },
     setShipmentData(state, action) {
-      console.log(action.payload.field);
       state.shipment.shipmentData[action.payload.field] = action.payload.value;
     },
   },

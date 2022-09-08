@@ -1,12 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { cartActions } from "../../../store/Cart";
+import { productsActions } from "../../../store/Products";
 import "./index.scss";
 
 const Filters = () => {
-  const cartData = useSelector((state) => state.cart);
+  const cartData = useSelector((state) => state.products);
   const dispatch = useDispatch();
-  console.log(cartData.textFilters);
   return (
     <div className="filters">
       {cartData.textFilters.map((filter) => (
@@ -16,7 +15,7 @@ const Filters = () => {
           value={filter.text}
           onChange={(e) =>
             dispatch(
-              cartActions.filterByText({
+              productsActions.filterByText({
                 index: filter.index,
                 value: e.target.value,
               })
@@ -24,7 +23,7 @@ const Filters = () => {
           }
         />
       ))}
-      <button onClick={() => dispatch(cartActions.clearFilters())}>
+      <button onClick={() => dispatch(productsActions.clearFilters())}>
         Clear
       </button>
     </div>

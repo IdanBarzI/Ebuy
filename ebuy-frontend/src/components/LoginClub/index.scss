@@ -51,15 +51,6 @@
 
     input,
     textarea {
-      padding: $text-m1;
-      margin: 10px 0;
-      z-index: 1;
-      border: 0;
-      background: url("../../assets/images/Login/input.svg") center;
-      border-radius: 4px;
-      font-size: $text-m1;
-      color: $input-text-color;
-      width: 250px;
     }
     .row {
       display: flex;
@@ -71,26 +62,6 @@
     }
     .last {
       animation: backInRight 1s;
-    }
-
-    ::placeholder {
-      opacity: 0.8; /* Firefox */
-      font-size: $text-m1;
-      font-family: "MedievalSharp", cursive;
-    }
-
-    :-ms-input-placeholder {
-      /* Internet Explorer 10-11 */
-      opacity: 0.8;
-      font-size: $text-m3;
-      font-family: "MedievalSharp", cursive;
-    }
-
-    ::-ms-input-placeholder {
-      /* Microsoft Edge */
-      opacity: 0.8;
-      font-size: $text-m3;
-      font-family: "MedievalSharp", cursive;
     }
 
     button {

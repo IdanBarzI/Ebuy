@@ -7,7 +7,6 @@ import { cartActions } from "../../../../store/Cart";
 const Cart = () => {
   const cartData = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  console.log(cartData);
 
   return (
     <>

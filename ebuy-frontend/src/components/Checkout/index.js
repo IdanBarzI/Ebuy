@@ -8,8 +8,10 @@ const Checkout = () => {
   return (
     <div className="checkout">
       <CartDrawer />
-      <Shipment />
-      <Card />
+      <div>
+        <Shipment />
+        <Card />
+      </div>
     </div>
   );
 };

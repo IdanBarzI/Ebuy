@@ -52,7 +52,6 @@ const Form = (props) => {
       <Formik
         initialValues={{ email: "", password: "" }}
         validate={(values) => {
-          console.log(values);
           const errors = {};
           if (!values.email) {
             errors.email = "Email is Required";
@@ -62,7 +61,6 @@ const Form = (props) => {
             errors.email = "Invalid email address";
           }
           if (!values.password) {
-            console.log("first");
             errors.password = "Password is Required";
           }
           return errors;
@@ -82,27 +80,31 @@ const Form = (props) => {
           /* and other goodies */
         }) => (
           <form className="form login-form" onSubmit={handleSubmit}>
-            <input
-              placeholder="Email"
-              type="email"
-              name="email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-            ></input>
+            <div style={{ display: "flex", gap: "16px" }}>
+              <p style={{ color: "white", fontSize: "16px" }}>Email:</p>
+              <input
+                type="email"
+                name="email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+              ></input>
+            </div>
             <div className="input-error">
               {errors.email && touched.email && errors.email}
             </div>
-            <input
-              placeholder="Password"
-              required
-              type="password"
-              name="password"
-              autoComplete="new-password"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.password}
-            />
+            <div style={{ display: "flex", gap: "16px" }}>
+              <p style={{ color: "white", fontSize: "16px" }}>Password:</p>
+              <input
+                required
+                type="password"
+                name="password"
+                autoComplete="new-password"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password}
+              />
+            </div>
             <div className="input-error">
               {errors.password && touched.password && errors.password}
             </div>

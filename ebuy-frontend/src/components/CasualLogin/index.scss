@@ -74,21 +74,20 @@
     }
 
     ::placeholder {
-      opacity: 0.8; /* Firefox */
+      opacity: 0.8;
+      color: white;
       font-size: $text-m1;
       font-family: "MedievalSharp", cursive;
     }
 
     :-ms-input-placeholder {
       /* Internet Explorer 10-11 */
-      opacity: 0.8;
       font-size: $text-m3;
       font-family: "MedievalSharp", cursive;
     }
 
     ::-ms-input-placeholder {
       /* Microsoft Edge */
-      opacity: 0.8;
       font-size: $text-m3;
       font-family: "MedievalSharp", cursive;
     }

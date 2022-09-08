@@ -7,6 +7,8 @@ const LanguageSelect = () => {
       <select>
         <option>Hebrew </option>
         <option>English </option>
+        <option>Deutsch </option>
+        <option>Italiano </option>
       </select>
     </div>
   );
