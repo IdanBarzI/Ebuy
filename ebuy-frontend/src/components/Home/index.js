@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Book from "./Book";
 import "./index.scss";
 import WhyUs from "./WhyUs/index.js";
+import Loader from "react-loaders";
 
 const Home = () => {
   const [letterClass, setLetterClass] = useState("text-animate");

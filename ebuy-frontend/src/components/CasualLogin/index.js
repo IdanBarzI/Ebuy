@@ -109,7 +109,7 @@ const CasualLoginClub = () => {
             </div>
             <div className="row last">
               <input
-                placeholder="email"
+                placeholder="Email *"
                 required
                 type="email"
                 name="email"
@@ -121,7 +121,7 @@ const CasualLoginClub = () => {
             </div>
             <div className="row last">
               <input
-                placeholder="address"
+                placeholder="Address"
                 type="address"
                 name="addres"
                 onChange={handleChange}

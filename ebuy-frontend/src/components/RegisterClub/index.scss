@@ -69,6 +69,7 @@
     }
 
     ::placeholder {
+      color: white;
       opacity: 0.8; /* Firefox */
       font-size: $text-m1;
       font-family: "MedievalSharp", cursive;
@@ -77,6 +78,7 @@
     :-ms-input-placeholder {
       /* Internet Explorer 10-11 */
       opacity: 0.8;
+      color: white;
       font-size: $text-m3;
       font-family: "MedievalSharp", cursive;
     }

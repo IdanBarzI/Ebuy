@@ -11,7 +11,7 @@ const Filters = () => {
       {cartData.textFilters.map((filter) => (
         <input
           key={filter.index}
-          placeholder={filter.name}
+          placeholder={`${ filter.name.toString().charAt(0).toUpperCase() +  filter.name.toString().slice(1)}`}
           value={filter.text}
           onChange={(e) =>
             dispatch(

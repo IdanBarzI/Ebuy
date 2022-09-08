@@ -100,7 +100,7 @@ const LoginClub = () => {
             </h2>
             <div className="row first">
               <input
-                placeholder="User Name"
+                placeholder="User Name *"
                 name="userName"
                 required
                 onChange={handleChange}
@@ -111,7 +111,7 @@ const LoginClub = () => {
             </div>
             <div className="row last">
               <input
-                placeholder="Password"
+                placeholder="Password *"
                 required
                 type="password"
                 name="password"

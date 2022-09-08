@@ -117,7 +117,7 @@ const RegisterClub = () => {
                 }}
               >
                 <input
-                  placeholder="User Name"
+                  placeholder="User Name *"
                   name="loginName"
                   required
                   onChange={handleChange}
@@ -136,7 +136,7 @@ const RegisterClub = () => {
                 }}
               >
                 <input
-                  placeholder="Email"
+                  placeholder="Email *"
                   type="email"
                   name="email"
                   onChange={handleChange}
@@ -155,7 +155,7 @@ const RegisterClub = () => {
                 }}
               >
                 <input
-                  placeholder="Password"
+                  placeholder="Password *"
                   required
                   type="password"
                   name="password"
@@ -178,7 +178,7 @@ const RegisterClub = () => {
                 }}
               >
                 <input
-                  placeholder="Renter Password"
+                  placeholder="Renter Password *"
                   required
                   type="password"
                   name="repassword"
@@ -199,7 +199,7 @@ const RegisterClub = () => {
                 }}
               >
                 <input
-                  placeholder="Address"
+                  placeholder="Address *"
                   required
                   type="Address"
                   name="addres"

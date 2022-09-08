@@ -1,4 +1,5 @@
-import React from "react";
+import React,{useRef} from "react";
+import Loader from "../../../../../UiKit/Loader";
 import "./index.scss";
 
 const LanguageSelect = () => {
@@ -10,6 +11,7 @@ const LanguageSelect = () => {
         <option>Deutsch </option>
         <option>Italiano </option>
       </select>
+      <Loader/>
     </div>
   );
 };

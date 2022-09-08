@@ -1,5 +1,11 @@
 @import "../../../styles/variabels/variabels.scss";
 .filters {
+  ::placeholder {
+    color: white;
+    opacity: 0.8; /* Firefox */
+    font-size: $text-m1;
+    font-family: "MedievalSharp", cursive;
+  }
   padding: 56px;
   display: flex;
   gap: 16px;
